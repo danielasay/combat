@@ -50,17 +50,25 @@ View(scanner)
 matrix <- data_matrix[,-1]
 rownames(matrix) <- data_matrix[,1]
 
+matrix <- as.data.frame(matrix)
+
 View(matrix)
 
-## Remove rows with missing data
+## Remove rows with missing data and duplicates
 
-matrix <- matrix[!apply(matrix == "NaN", 1, all), ]
+dim(matrix)
+
+matrix <- matrix[!apply(matrix == "NaN", 2, all), ]
+
+matrix <- subset(matrix, select=-c(X2))
+
+matrix <- matrix %>% distinct()
+
+View(matrix)
 
 ### Run neuroCombat
 
 data.harmonized <- neuroCombat(dat = matrix, batch = scanner$scanner_number)
-
-
 
 
 
