@@ -21,11 +21,36 @@ scanner <- paste(data_info$Manufacturer, data_info$ManufacturersModelName)
 
 scanner <- scanner[-c(135, 136)]
 
+scanner <- as.data.frame(scanner)
+
+library(dplyr)
+
+scanner %>%
+  mutate(Scanner_Number = case_when(
+    endsWith(scanner, "m") ~ "1",
+    endsWith(scanner, "z") ~ "2",
+    TRUE ~ as.character(Scanner_Number)
+  ))
+
+library(dplyr)
+scanner <- scanner%>%
+  mutate(scanner_number = case_when(
+    scanner == "SIEMENS TrioTim" ~ "1",
+    scanner == "SIEMENS Prisma_fit" ~ "2",
+    scanner == "GE MEDICAL SYSTEMS Signa HDxt" ~ "3",
+    scanner == "GE MEDICAL SYSTEMS DISCOVERY MR750" ~ "4",
+    scanner == "GE MEDICAL SYSTEMS SIGNA EXCITE" ~ "5",
+    scanner == "GE MEDICAL SYSTEMS SIGNA HDx" ~ "6",
+    scanner == "GE MEDICAL SYSTEMS SIGNA HDx" ~ "6",
+    ))
+
+as.numeric(data_matrix)
+
 View(scanner)
 
 ### Run neuroCombat
 
-data.harmonized <- neuroCombat(dat = dat, batch = batch)
+data.harmonized <- neuroCombat(dat = data_matrix, batch = scanner$scanner_number)
 
 
 
