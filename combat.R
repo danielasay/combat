@@ -1,4 +1,10 @@
 # Script to run ComBat Harmonization on T1 Data for McDonald Lab
+# To run, you will need to install the following packages: devtools neuroCombat
+
+#install.packages("devtools")
+#library(devtools)
+#install_github("jfortin1/CombatHarmonization/R/neuroCombat")
+#library(neuroCombat)
 
 # Read in the transposed MRI_all.csv and MRI_info.csv files
 
@@ -11,14 +17,24 @@ View(data_info)
 
 ## Merge Scanner manufacturer with scanner name
 
-
-toString(data_info$Manufacturer)
-
-toString(data_info$ManufacturersModelName)
-
 scanner <- paste(data_info$Manufacturer, data_info$ManufacturersModelName)
+
+scanner <- scanner[-c(135, 136)]
 
 View(scanner)
 
-### Rename the data_matrix and scanner objects to dat and batch, respectively for neuroCombat use.
+### Run neuroCombat
+
+data.harmonized <- neuroCombat(dat = dat, batch = batch)
+
+
+
+
+
+
+
+
+
+
+
 
