@@ -52,6 +52,10 @@ rownames(matrix) <- data_matrix[,1]
 
 View(matrix)
 
+## Remove rows with missing data
+
+matrix <- matrix[!apply(matrix == "NaN", 1, all), ]
+
 ### Run neuroCombat
 
 data.harmonized <- neuroCombat(dat = matrix, batch = scanner$scanner_number)
