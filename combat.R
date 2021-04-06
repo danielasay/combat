@@ -8,3 +8,9 @@ data_info <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheet
 
 View(data_matrix)
 View(data_info)
+
+## Merge Scanner manufacturer with scanner name
+
+data_info$Scanner <- paste(data_info$Manufacturer, "_", data_info$ManufacturersModelName)
+
+View(data_info$Scanner)
