@@ -11,10 +11,14 @@ View(data_info)
 
 ## Merge Scanner manufacturer with scanner name
 
-trimws(data_info$Manufacturer)
 
-trimws(data_info$ManufacturersModelName)
+toString(data_info$Manufacturer)
 
-data_info$Scanner <- paste(data_info$Manufacturer, data_info$ManufacturersModelName)
+toString(data_info$ManufacturersModelName)
 
-View(data_info$Scanner)
+scanner <- paste(data_info$Manufacturer, data_info$ManufacturersModelName)
+
+View(scanner)
+
+### Rename the data_matrix and scanner objects to dat and batch, respectively for neuroCombat use.
+
