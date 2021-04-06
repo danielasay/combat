@@ -11,6 +11,10 @@ View(data_info)
 
 ## Merge Scanner manufacturer with scanner name
 
-data_info$Scanner <- paste(data_info$Manufacturer, "_", data_info$ManufacturersModelName)
+trimws(data_info$Manufacturer)
+
+trimws(data_info$ManufacturersModelName)
+
+data_info$Scanner <- paste(data_info$Manufacturer, data_info$ManufacturersModelName)
 
 View(data_info$Scanner)
