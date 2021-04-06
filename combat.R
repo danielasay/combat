@@ -19,18 +19,13 @@ View(data_info)
 
 scanner <- paste(data_info$Manufacturer, data_info$ManufacturersModelName)
 
+# Remove empty values 
+
 scanner <- scanner[-c(135, 136)]
 
 scanner <- as.data.frame(scanner)
 
-library(dplyr)
-
-scanner %>%
-  mutate(Scanner_Number = case_when(
-    endsWith(scanner, "m") ~ "1",
-    endsWith(scanner, "z") ~ "2",
-    TRUE ~ as.character(Scanner_Number)
-  ))
+# Give each Scanner name a specific number
 
 library(dplyr)
 scanner <- scanner%>%
@@ -44,13 +39,24 @@ scanner <- scanner%>%
     scanner == "GE MEDICAL SYSTEMS SIGNA HDx" ~ "6",
     ))
 
-as.numeric(data_matrix)
+# Convert scanner_number into a numeric variable
+
+scanner$scanner_number <- as.numeric(scanner$scanner_number)
 
 View(scanner)
 
+# Make the first column of data_matrix into the row names
+
+matrix <- data_matrix[,-1]
+rownames(matrix) <- data_matrix[,1]
+
+View(matrix)
+
 ### Run neuroCombat
 
-data.harmonized <- neuroCombat(dat = data_matrix, batch = scanner$scanner_number)
+data.harmonized <- neuroCombat(dat = matrix, batch = scanner$scanner_number)
+
+
 
 
 
