@@ -66,16 +66,16 @@ matrix <- matrix %>% distinct()
 
 matrix <- distinct(matrix)
 
+scan_num <- scanner$scanner_number
+
+scan_num <- as.numeric(scan_num)
+
 dim(matrix)
+length(scan_num)
 
 ### Run neuroCombat
 
-data.harmonized <- neuroCombat(dat = matrix, batch = scanner$scanner_number)
-
-
-
-
-
+data.harmonized <- neuroCombat(dat = matrix, batch = scan_num)
 
 
 
