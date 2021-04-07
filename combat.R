@@ -4,7 +4,7 @@
 #install.packages("devtools")
 #library(devtools)
 #install_github("jfortin1/CombatHarmonization/R/neuroCombat")
-#library(neuroCombat)
+library(neuroCombat)
 
 # Read in the transposed MRI_all.csv and MRI_info.csv files
 
@@ -58,20 +58,19 @@ View(matrix)
 
 dim(matrix)
 
-matrix <- matrix[!apply(matrix == "NaN", 2, all), ]
+matrix <- matrix[!apply(matrix == "NaN", 1, all), ]
 
-matrix <- subset(matrix, select=-c(X2))
+matrix <- matrix[!apply(matrix == "0", 1, all), ]
 
 matrix <- matrix %>% distinct()
 
-View(matrix)
+matrix <- distinct(matrix)
+
+dim(matrix)
 
 ### Run neuroCombat
 
 data.harmonized <- neuroCombat(dat = matrix, batch = scanner$scanner_number)
-
-
-
 
 
 
