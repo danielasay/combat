@@ -10,7 +10,7 @@ library(neuroCombat)
 
 data_matrix <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/MRI_all_transposed_4.6.2021.csv")
 
-data_info <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/MRI_info_3.30.2021.csv")
+data_info <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/matched_scanner_info.csv")
 
 View(data_matrix)
 View(data_info)
@@ -19,9 +19,7 @@ View(data_info)
 
 scanner <- paste(data_info$Manufacturer, data_info$ManufacturersModelName)
 
-# Remove empty values 
-
-scanner <- scanner[-c(135, 136)]
+# Turn into Data Frame
 
 scanner <- as.data.frame(scanner)
 
