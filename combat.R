@@ -66,7 +66,7 @@ matrix <- distinct(matrix)
 
 scan_num <- scanner$scanner_number
 
-scan_num <- as.numeric(scan_num)
+scan_num <- as.character(scan_num)
 
 dim(matrix)
 length(scan_num)
