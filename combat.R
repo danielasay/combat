@@ -48,6 +48,7 @@ View(scanner)
 matrix <- data_matrix[,-1]
 rownames(matrix) <- data_matrix[,1]
 
+
 matrix <- as.data.frame(matrix)
 
 View(matrix)
@@ -66,14 +67,28 @@ matrix <- distinct(matrix)
 
 scan_num <- scanner$scanner_number
 
-scan_num <- as.character(scan_num)
+scan_num <- as.matrix(scan_num)
 
 dim(matrix)
 length(scan_num)
 
 ### Run neuroCombat
 
-data.harmonized <- neuroCombat(dat = matrix, batch = scan_num)
+write.csv(matrix, "~/Desktop/matrix.csv", row.names = TRUE)
+write.csv(scan_num, "~/Desktop/scan_num.csv", row.names = FALSE)
+
+subset <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/subset.csv")
+
+data_subset <- subset[,-1]
+rownames(data_subset) <- subset[,1]
+
+info_subset <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/info_subset.csv")
+
+dim(data_subset)
+
+dim(info_subset)
+
+data.harmonized <- neuroCombat(dat = data_subset, batch = info_subset)
 
 
 
