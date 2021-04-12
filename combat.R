@@ -28,13 +28,12 @@ scanner <- as.data.frame(scanner)
 library(dplyr)
 scanner <- scanner%>%
   mutate(scanner_number = case_when(
-    scanner == "SIEMENS TrioTim" ~ "1",
-    scanner == "SIEMENS Prisma_fit" ~ "2",
-    scanner == "GE MEDICAL SYSTEMS Signa HDxt" ~ "3",
-    scanner == "GE MEDICAL SYSTEMS DISCOVERY MR750" ~ "4",
-    scanner == "GE MEDICAL SYSTEMS SIGNA EXCITE" ~ "5",
-    scanner == "GE MEDICAL SYSTEMS SIGNA HDx" ~ "6",
-    scanner == "GE MEDICAL SYSTEMS SIGNA HDx" ~ "6",
+    scanner == "SIEMENS TrioTim" ~ "Scanner1",
+    scanner == "SIEMENS Prisma_fit" ~ "Scanner2",
+    scanner == "GE MEDICAL SYSTEMS Signa HDxt" ~ "Scanner3",
+    scanner == "GE MEDICAL SYSTEMS DISCOVERY MR750" ~ "Scanner4",
+    scanner == "GE MEDICAL SYSTEMS SIGNA EXCITE" ~ "Scanner5",
+    scanner == "GE MEDICAL SYSTEMS SIGNA HDx" ~ "Scanner6",
     ))
 
 # Convert scanner_number into a numeric variable
@@ -49,7 +48,7 @@ matrix <- data_matrix[,-1]
 rownames(matrix) <- data_matrix[,1]
 
 
-matrix <- as.data.frame(matrix)
+matrix <- as.matrix(matrix)
 
 View(matrix)
 
@@ -85,7 +84,7 @@ data.harmonized <- neuroCombat(dat = matrix, batch = scan_num)
 write.csv(matrix, "~/Desktop/matrix.csv", row.names = TRUE)
 write.csv(scan_num, "~/Desktop/scan_num.csv", row.names = FALSE)
 
-#Take a subset of the data to figure out what errors are ocurring
+#Take a subset of the data to figure out what errors are occurring
 
 subset <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/subset.csv")
 
@@ -98,14 +97,32 @@ rownames(data_subset) <- subset[,1]
 
 info_subset <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/info_subset.csv")
 
+as.character(info_subset$V1)
+
 dim(data_subset)
 
 dim(info_subset)
 
+# Take a look at the data
+
+View(data_subset)
+
+View(info_subset)
+
 #run ComBat
 
-data.harmonized <- neuroCombat(dat = data_subset, batch = info)
+data_subset <- as.matrix(data_subset)
 
+info_subset <- as.matrix(info_subset)
 
+data.harmonized <- neuroCombat(dat = data_subset, batch = info_subset)
 
+## Write out csv spreadsheets to send to Erik
 
+write.csv(data_subset, "~/Desktop/data_subset.csv", row.names = TRUE)
+
+write.csv(info_subset, "~/Desktop/scannerinfo_subset.csv", row.names = FALSE)
+
+write.csv(combatExampleData, "~/Desktop/combat_example_data.csv")
+
+write.csv(combatExampleScanner, "~/Desktop/combat_example_scanner.csv", row.names = FALSE)
