@@ -65,22 +65,36 @@ matrix <- matrix %>% distinct()
 
 matrix <- distinct(matrix)
 
+### Trim down info and turn it into matrix
+
 scan_num <- scanner$scanner_number
 
 scan_num <- as.matrix(scan_num)
+ 
+## Verify that the data sets are the same size. (The second number from the dim() command should match the number from the length() command)
 
 dim(matrix)
 length(scan_num)
 
 ### Run neuroCombat
 
+data.harmonized <- neuroCombat(dat = matrix, batch = scan_num)
+
+## Write out data sets to send to Jean-Philippe
+
 write.csv(matrix, "~/Desktop/matrix.csv", row.names = TRUE)
 write.csv(scan_num, "~/Desktop/scan_num.csv", row.names = FALSE)
 
+#Take a subset of the data to figure out what errors are ocurring
+
 subset <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/subset.csv")
+
+# make the first column the row names
 
 data_subset <- subset[,-1]
 rownames(data_subset) <- subset[,1]
+
+# load in info subset and then compare dimensions
 
 info_subset <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/info_subset.csv")
 
@@ -88,7 +102,9 @@ dim(data_subset)
 
 dim(info_subset)
 
-data.harmonized <- neuroCombat(dat = data_subset, batch = info_subset)
+#run ComBat
+
+data.harmonized <- neuroCombat(dat = data_subset, batch = info)
 
 
 
