@@ -74,4 +74,6 @@ length(scan_num)
 
 data.harmonized <- neuroCombat(dat = matrix, batch = scan_num)
 
+### Output csv file to send on to interested parties
 
+write.csv(data.harmonized$dat.combat, "~/Desktop/combat_output.csv", row.names = TRUE)
