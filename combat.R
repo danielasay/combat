@@ -19,7 +19,7 @@ View(data_info)
 
 scanner <- paste(data_info$Manufacturer, data_info$ManufacturersModelName)
 
-# Turn into Data Frame
+# Turn into dataframe
 
 scanner <- as.data.frame(scanner)
 
@@ -36,10 +36,6 @@ scanner <- scanner%>%
     scanner == "GE MEDICAL SYSTEMS SIGNA HDx" ~ "Scanner6",
     ))
 
-# Convert scanner_number into a numeric variable
-
-scanner$scanner_number <- as.numeric(scanner$scanner_number)
-
 View(scanner)
 
 # Make the first column of data_matrix into the row names
@@ -47,12 +43,13 @@ View(scanner)
 matrix <- data_matrix[,-1]
 rownames(matrix) <- data_matrix[,1]
 
+## Turn the matrix variable into a matrix class. (this makes it work with ComBat)
 
 matrix <- as.matrix(matrix)
 
 View(matrix)
 
-## Remove rows with missing data and duplicates
+## Remove rows with missing data and duplicates, check dimensions before and after
 
 dim(matrix)
 
@@ -60,10 +57,8 @@ matrix <- matrix[!apply(matrix == "NaN", 1, all), ]
 
 matrix <- matrix[!apply(matrix == "0", 1, all), ]
 
-matrix <- matrix %>% distinct()
 
-matrix <- distinct(matrix)
-
+dim(matrix)
 ### Trim down info and turn it into matrix
 
 scan_num <- scanner$scanner_number
@@ -79,50 +74,4 @@ length(scan_num)
 
 data.harmonized <- neuroCombat(dat = matrix, batch = scan_num)
 
-## Write out data sets to send to Jean-Philippe
 
-write.csv(matrix, "~/Desktop/matrix.csv", row.names = TRUE)
-write.csv(scan_num, "~/Desktop/scan_num.csv", row.names = FALSE)
-
-#Take a subset of the data to figure out what errors are occurring
-
-subset <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/subset.csv")
-
-# make the first column the row names
-
-data_subset <- subset[,-1]
-rownames(data_subset) <- subset[,1]
-
-# load in info subset and then compare dimensions
-
-info_subset <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/info_subset.csv")
-
-as.character(info_subset$V1)
-
-dim(data_subset)
-
-dim(info_subset)
-
-# Take a look at the data
-
-View(data_subset)
-
-View(info_subset)
-
-#run ComBat
-
-data_subset <- as.matrix(data_subset)
-
-info_subset <- as.matrix(info_subset)
-
-data.harmonized <- neuroCombat(dat = data_subset, batch = info_subset)
-
-## Write out csv spreadsheets to send to Erik
-
-write.csv(data_subset, "~/Desktop/data_subset.csv", row.names = TRUE)
-
-write.csv(info_subset, "~/Desktop/scannerinfo_subset.csv", row.names = FALSE)
-
-write.csv(combatExampleData, "~/Desktop/combat_example_data.csv")
-
-write.csv(combatExampleScanner, "~/Desktop/combat_example_scanner.csv", row.names = FALSE)
