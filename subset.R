@@ -7,11 +7,27 @@ subset <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/s
 data_subset <- subset[,-1]
 rownames(data_subset) <- subset[,1]
 
+dim(data_subset)
+
+##Clean up data
+
+dim(data_subset)
+
+data_subset <- data_subset[!apply(data_subset == "NaN", 1, all), ]
+
+data_subset <- data_subset[!apply(data_subset == "0", 1, all), ]
+
+data_subset <- data_subset %>% distinct()
+
+data_subset <- distinct(data_subset)
+
+View(data_subset)
+
 # load in info subset and then compare dimensions
 
 info_subset <- read.csv("/Users/dasay/Dropbox/McDonald_Lab/Data/Output_Spreadsheets/info_subset.csv")
 
-as.character(info_subset$V1)
+#as.character(info_subset$V1)
 
 dim(data_subset)
 
